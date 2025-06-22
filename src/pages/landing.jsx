@@ -25,7 +25,7 @@ export default function HomePage() {
                         style: {
                             background: "#fff",
                             color: "red",
-                            fontSize: "1.3rem",
+                            fontSize: "1rem",
                             padding: "10px 20px",
                             fontWeight: "500",
                         },
