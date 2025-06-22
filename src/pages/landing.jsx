@@ -16,6 +16,24 @@ export default function HomePage() {
 
     const addtoWaitList = async() => {
         try{
+            const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+            if (!email || !emailRegex.test(email)) {
+                toast(
+                    "Enter a valid email address!",
+                    {
+                        style: {
+                            background: "#fff",
+                            color: "red",
+                            fontSize: "1.3rem",
+                            padding: "10px 20px",
+                            fontWeight: "500",
+                        },
+                    }
+                )
+                return;
+            }
+
             const waitListRef = collection(db, "waitlist")
 
             // Add a new document with email and timestamp
@@ -26,27 +44,31 @@ export default function HomePage() {
 
             if(res.id) {
                 toast(
-                  <span style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <Check style={{ color: "#000" }} /> Successfully
-                    added to waitlist!
-                  </span>,
-                  {
-                    duration: 3000,
-                    position: "top-right",
-                    style: {
-                      background: "#fff",
-                      color: "#000",
-                      fontSize: "22px",
-                      padding: "10px 20px",
-                      borderRadius: "8px",
-                    },
-                  }
-                );
+                    "Successfully added to waitlist!",
+                    {
+                        style: {
+                            background: "#fff",
+                            color: "#000",
+                            fontSize: "1.3rem",
+                            padding: "10px 20px",
+                            fontWeight: "500",
+                        },
+                    }
+                )
                 setEmail(""); 
             }
         }
         catch (error) {
-            console.error("Error adding to waitlist: ", error);
+            toast(
+                "Something went wrong, please try again later.",{
+                    style: {
+                        background: "#fff",
+                        color: "red",
+                        fontSize: "1.3rem",
+                        padding: "10px 20px",
+                        fontWeight: "500",
+                    },
+                })
         }
     }
 
@@ -113,7 +135,8 @@ export default function HomePage() {
                     <div className="flex-1">
                       <input
                         type="email"
-                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                        required
+                        pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Email address"
