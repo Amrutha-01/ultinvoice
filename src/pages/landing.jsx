@@ -95,14 +95,14 @@ export default function HomePage() {
               {/* Left Side - Text Content */}
               <div className="space-y-8 w-full">
                 <div className="space-y-6">
-                  <h1 className="font-heading text-5xl lg:text-8xl font-light tracking-tight text-white leading-[1.1]">
+                  <h1 className="font-heading text-5xl lg:text-7xl font-light tracking-tight text-white leading-[1.1]">
                     Stop Typing,{" "}
                     <span className="text-zinc-400">Start Describing</span>
                   </h1>
                   <div className="w-16 h-1 bg-white"></div>
                 </div>
 
-                <p className="text-zinc-300 text-base lg:text-xl leading-relaxed font-light max-w-lg">
+                <p className="text-zinc-300 text-base lg:text-2xl leading-relaxed font-light max-w-lg">
                   The world's first prompt-based generator for invoices and
                   quotations. Simply describe what you need, and our AI crafts
                   professional PDFs in seconds.
