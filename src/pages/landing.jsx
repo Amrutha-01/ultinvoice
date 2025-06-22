@@ -49,7 +49,7 @@ export default function HomePage() {
                         style: {
                             background: "#fff",
                             color: "#000",
-                            fontSize: "1.3rem",
+                            fontSize: "1rem",
                             padding: "10px 20px",
                             fontWeight: "500",
                         },
@@ -64,7 +64,7 @@ export default function HomePage() {
                     style: {
                         background: "#fff",
                         color: "red",
-                        fontSize: "1.3rem",
+                        fontSize: "1rem",
                         padding: "10px 20px",
                         fontWeight: "500",
                     },
