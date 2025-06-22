@@ -44,17 +44,18 @@ export default function HomePage() {
 
             if(res.id) {
                 toast(
-                    "Successfully added to waitlist!",
-                    {
-                        style: {
-                            background: "#fff",
-                            color: "#000",
-                            fontSize: "1rem",
-                            padding: "10px 20px",
-                            fontWeight: "500",
-                        },
-                    }
-                )
+                  "Thanks for signing up. We’ll let you know as soon as we’re ready for you. Stay tuned!",
+                  {
+                    duration: 5000,
+                    style: {
+                      background: "#fff",
+                      color: "#000",
+                      fontSize: "1.2rem",
+                      padding: "10px 20px",
+                      fontWeight: "500",
+                    },
+                  }
+                );
                 setEmail(""); 
             }
         }
@@ -75,7 +76,7 @@ export default function HomePage() {
     return (
       <div className=" bg-black text-white font-body w-full">
         {/* Header */}
-        <Toaster />
+        <Toaster toastOptions={{style:{minWidth:'500'}}}/>
         <header className="sticky top-0 z-50 border-b border-zinc-800/50 bg-black/80 backdrop-blur-xl">
           <div className="px-6 py-5 flex items-center justify-between">
             {/* Logo */}
