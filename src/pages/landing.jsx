@@ -88,7 +88,7 @@ export default function HomePage() {
                   className="w-8 h-8 max-[500px]:w-6 max-[500px]:h-6"
                 />
               </div>
-              <span className="font-heading font-semibold text-white text-2xl tracking-tight max-[500px]:text-lg">
+              <span className="font-heading font-[400] text-white text-2xl tracking-tight max-[500px]:text-lg">
                 UltInvoice
               </span>
             </div>
@@ -97,13 +97,13 @@ export default function HomePage() {
             <nav className="md:flex items-center space-x-10">
               <a
                 href="#features"
-                className="text-zinc-400 hover:text-white transition-colors font-medium scroll-smooth cursor-pointer text-lg max-[500px]:text-xs"
+                className="text-zinc-400 hover:text-white transition-colors font-[400] scroll-smooth cursor-pointer text-lg max-[500px]:text-xs"
               >
                 Features
               </a>
               <a
                 href="#faq"
-                className="text-zinc-400 hover:text-white transition-colors font-medium scroll-smooth cursor-pointer text-lg max-[500px]:text-xs"
+                className="text-zinc-400 hover:text-white transition-colors font-[400] scroll-smooth cursor-pointer text-lg max-[500px]:text-xs"
               >
                 FAQ
               </a>
@@ -112,7 +112,7 @@ export default function HomePage() {
         </header>
 
         {/* Hero Section */}
-        <section className="relative py-24 lg:py-32 max-[500px]:py-10 ">
+        <section className="relative py-10 lg:py-12 max-[500px]:py-10 ">
           <div className="mx-10 px-6 w-auto max-[500px]:!mx-0">
             <div className="flex flex-row max-[500px]:flex-col gap-10">
               {/* Left Side - Text Content */}
@@ -218,7 +218,7 @@ export default function HomePage() {
         {/* Features Section */}
         <section
           id="features"
-          className="py-24 lg:py-32 border-t border-zinc-800/50"
+          className="py-14 lg:py-16 border-t border-zinc-800/50"
         >
           <div className="mx-10 px-10 max-[500px]:!mx-0">
             <div className="text-center mb-20">
@@ -287,7 +287,7 @@ export default function HomePage() {
         {/* FAQ Section */}
         <section
           id="faq"
-          className="py-24 lg:py-32 border-t border-zinc-800/50"
+          className="py-18 lg:py-20 border-t border-zinc-800/50"
         >
           <div className=" mx-auto px-6 max-[500px]:!mx-0">
             <div className="text-center mb-20">
