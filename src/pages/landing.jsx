@@ -52,7 +52,7 @@ export default function HomePage() {
           if (!querySnapshot.empty) {
             // Email already exists
             toast(
-              "Your already on the waitlist! Check your inbox for next steps",
+              "You're already on the waitlist! Check your inbox for next steps",
               {
                 duration: 5000,
                 style: {
@@ -99,17 +99,16 @@ export default function HomePage() {
           }        
         }
         catch (error) {
-            toast(
-                "Something went wrong, please try again later.",{
-                    style: {
-                        background: "#fff",
-                        color: "red",
-                        fontSize: "1rem",
-                        padding: "10px 20px",
-                        fontWeight: "500",
-                    },
-                })
-                console.log(error)
+          toast("Something went wrong, please try again later.",
+          {
+            style: {
+                background: "#fff",
+                color: "red",
+                fontSize: "1rem",
+                padding: "10px 20px",
+                fontWeight: "500",
+            },
+          })
         }
     }
 
