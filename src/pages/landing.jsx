@@ -7,57 +7,96 @@ import {
 } from "lucide-react";
 import app from "../../firebase";
 import { db } from "../../firebase";
-import { addDoc,collection,serverTimestamp } from "firebase/firestore";
+import { addDoc,collection,getDocs,query,serverTimestamp, where } from "firebase/firestore";
 import toast, { Toaster } from "react-hot-toast";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
+import { analytics } from "../../firebase";
+import { logEvent } from "firebase/analytics";
 
 export default function HomePage() {
     const [email, setEmail]=useState("");
 
+    useEffect(() => {
+      if (analytics) {
+        logEvent(analytics, "page_view", {
+          page_title: "HomePage",
+          page_location: window.location.pathname,
+        });
+      }
+    }, []);
+
     const addtoWaitList = async() => {
         try{
-            const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+          const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
-            if (!email || !emailRegex.test(email)) {
-                toast(
-                    "Enter a valid email address!",
-                    {
-                        style: {
-                            background: "#fff",
-                            color: "red",
-                            fontSize: "1rem",
-                            padding: "10px 20px",
-                            fontWeight: "500",
-                        },
-                    }
-                )
-                return;
-            }
-
-            const waitListRef = collection(db, "waitlist")
-
-            // Add a new document with email and timestamp
-            const res= await addDoc(waitListRef, {
-                email,
-                createdAt: serverTimestamp(),
-            })
-
-            if(res.id) {
-                toast(
-                  "Thanks for signing up. We’ll let you know as soon as we’re ready for you. Stay tuned!",
+          if (!email || !emailRegex.test(email)) {
+              toast(
+                  "Enter a valid email address!",
                   {
-                    duration: 5000,
-                    style: {
-                      background: "#fff",
-                      color: "#000",
-                      fontSize: "1.2rem",
-                      padding: "10px 20px",
-                      fontWeight: "500",
-                    },
+                      style: {
+                          background: "#fff",
+                          color: "red",
+                          fontSize: "1rem",
+                          padding: "10px 20px",
+                          fontWeight: "500",
+                      },
                   }
-                );
-                setEmail(""); 
-            }
+              )
+              return;
+          }
+
+          const waitListRef = collection(db, "waitlist")
+          const q = query(waitListRef, where("email", "==", email));
+          const querySnapshot = await getDocs(q);
+
+          if (!querySnapshot.empty) {
+            // Email already exists
+            toast(
+              "Your already on the waitlist! Check your inbox for next steps",
+              {
+                duration: 5000,
+                style: {
+                  background: "#fff",
+                  color: "#000",
+                  fontSize: "1.2rem",
+                  padding: "10px 20px",
+                  fontWeight: "500",
+                },
+              }
+            );
+          }
+          else{
+            const res = await addDoc(waitListRef, {
+              email,
+              createdAt: serverTimestamp(),
+            });
+
+            const response = await fetch(
+              `${import.meta.env.VITE_API_KEY}send-waitlist-email`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  email: email,
+                }),
+              }
+            );
+
+            if (res.id && response) {
+              toast("Thanks for joining! Check your inbox for the details", {
+                duration: 5000,
+                style: {
+                  background: "#fff",
+                  color: "#000",
+                  fontSize: "1.2rem",
+                  padding: "10px 20px",
+                  fontWeight: "500",
+                },
+              });
+            } 
+          }        
         }
         catch (error) {
             toast(
@@ -70,20 +109,28 @@ export default function HomePage() {
                         fontWeight: "500",
                     },
                 })
+                console.log(error)
         }
     }
 
+    const sendWaitlistEmail = async (toEmail) => {
+      const SENDGRID_API_KEY = import.meta.env.VITE_API_KEY_EMAIL;
+      const SENDER_EMAIL = "ultinvoiceteam@gmail.com";
+
+      
+    };
+    
     return (
       <div className=" bg-black text-white font-body w-full">
         {/* Header */}
-        <Toaster toastOptions={{style:{minWidth:'500'}}}/>
+        <Toaster toastOptions={{ style: { minWidth: "500" } }} />
         <header className="sticky top-0 z-50 border-b border-zinc-800/50 bg-black/80 backdrop-blur-xl">
           <div className="px-6 py-5 flex items-center justify-between">
             {/* Logo */}
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center max-[500px]:w-8 max-[500px]:h-8">
+              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center max-[500px]:w-8 max-[500px]:h-8">
                 <img
-                  src="/logo.svg"
+                  src="/logo.png"
                   alt="UltInvoice Logo"
                   className="w-8 h-8 max-[500px]:w-6 max-[500px]:h-6"
                 />
@@ -248,7 +295,6 @@ export default function HomePage() {
                   accuracy.
                 </p>
               </div>
-
               {/* Feature 2 */}
               <div className="group bg-zinc-900/30 border border-zinc-800 rounded-2xl p-8 hover:border-zinc-700 hover:bg-zinc-900/50 transition-all duration-300">
                 <div className="mb-6">
@@ -375,9 +421,9 @@ export default function HomePage() {
         <footer className="py-20 border-t border-zinc-800/50 mx-auto px-6 text-center space-y-8">
           {/* Logo */}
           <div className="flex items-center justify-center space-x-3">
-            <div className="w-10 h-10 max-[500px]:w-8 max-[500px]:h-8 bg-white rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 max-[500px]:w-8 max-[500px]:h-8 bg-white rounded-full flex items-center justify-center">
               <img
-                src="/logo.svg"
+                src="/logo.png"
                 alt="UltInvoice Logo"
                 className="w-8 h-8 max-[500px]:w-6 max-[500px]:h-6"
               />
